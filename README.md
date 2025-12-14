@@ -14,6 +14,8 @@ This agent uses the **Deep Research Pro Preview** model:
 deep-research-pro-preview-12-2025
 ```
 
+<img width="1025" height="505" alt="Screenshot 2025-12-14 at 11 44 55" src="https://github.com/user-attachments/assets/311e9f30-113c-4831-97b0-45b6d4b096ea" />
+
 See: [Deep Research Documentation](https://ai.google.dev/gemini-api/docs/deep-research)
 
 ## 🧠 Model Comparison: Deep Research vs Deep Think
