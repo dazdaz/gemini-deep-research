@@ -33,8 +33,17 @@ class DeepResearchApp {
     this.folderInput = document.getElementById('folderInput');
     this.browseBtn = document.getElementById('browseBtn');
     this.browseFolderBtn = document.getElementById('browseFolderBtn');
-    this.fileQueue = document.getElementById('fileQueue');
+      this.fileQueue = document.getElementById('fileQueue');
     
+    this.repoInputRow = document.createElement('div');
+    this.repoInputRow.className = 'form-row';
+    this.repoInputRow.innerHTML = `
+      <label><i class="fab fa-github"></i> Clone Repo (Optional)</label>
+      <input type="text" id="repoInput" placeholder="https://github.com/username/repo" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); font-size: 0.95rem; font-family: var(--font-main);">
+    `;
+    this.dropZone.parentNode.insertBefore(this.repoInputRow, this.dropZone);
+    this.repoInput = document.getElementById('repoInput');
+
     this.startResearchBtn = document.getElementById('startResearchBtn');
     this.progressSection = document.getElementById('progressSection');
     this.progressBar = document.getElementById('progressBar');
@@ -140,10 +149,23 @@ class DeepResearchApp {
     panel.innerHTML = `
       <section class="results-section">
         <div class="results-content" style="max-width: 800px; margin: 0 auto; padding-top: 1rem;">
-          <h1>🧠 Model Comparison: Deep Research vs Deep Think</h1>
+          <h2 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">✨ Features</h2>
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li>🔍 <strong>Deep Research:</strong> Comprehensive AI-powered research using Gemini's Deep Research agent (<code>deep-research-pro-preview-12-2025</code>)</li>
+            <li>📁 <strong>Multi-Document Upload:</strong> Upload multiple files or entire folders for context</li>
+            <li>🎚️ <strong>Configurable Depth:</strong> Quick, Standard, Deep, or Maximum research depth</li>
+            <li>📊 <strong>Multiple Output Formats:</strong> Summary, Detailed, Markdown, or JSON</li>
+            <li>🌐 <strong>Web Interface:</strong> Modern, responsive UI for browser-based research</li>
+            <li>💻 <strong>CLI Tool:</strong> Powerful command-line interface for scripting and automation</li>
+            <li>📚 <strong>Library Module:</strong> Import into your own Node.js projects</li>
+            <li>⚡ <strong>Background Processing:</strong> Long-running research with progress tracking</li>
+            <li>🔗 <strong>GitHub Repo Clone:</strong> Clone and analyze public GitHub repositories for code research</li>
+          </ul>
+
+          <h1 style="margin-top: 2em;">🧠 Model Comparison: Deep Research vs Deep Think</h1>
           <p>It's important to understand the distinction between Google's recent AI capabilities:</p>
           
-          <h2 style="color: var(--primary); margin-top: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Gemini Deep Research</h2>
+          <h2 style="color: var(--primary); margin-top: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Gemini Deep Research (Gemini 3)</h2>
           <p>This agent utilizes the <strong>Deep Research</strong> capability, which is an agentic workflow designed for comprehensive information gathering and synthesis.</p>
           <ul>
             <li><strong>Focus:</strong> External research, browsing, multi-step retrieval, and synthesizing logical reports from many sources.</li>
@@ -266,18 +288,21 @@ class DeepResearchApp {
       this.progressStatus.textContent = 'Researching...';
       this.progressBar.style.width = '20%';
 
+      const researchBody = {
+        query,
+        depth: this.depthSelect.value,
+        outputFormat: this.formatSelect.value,
+        sourceTypes: this.sourcesSelect.value,
+        includeCitations: true,
+        refineWithThinking: this.deepThinkCheck ? this.deepThinkCheck.checked : false,
+        documents: uploadedFiles,
+        repoUrl: this.repoInput.value.trim() || undefined
+      };
+
       const response = await fetch('/api/research', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          query,
-          depth: this.depthSelect.value,
-          outputFormat: this.formatSelect.value,
-          sourceTypes: this.sourcesSelect.value,
-          includeCitations: true, // Default to true since option removed from UI
-          refineWithThinking: this.deepThinkCheck ? this.deepThinkCheck.checked : false,
-          documents: uploadedFiles
-        })
+        body: JSON.stringify(researchBody)
       });
 
       if (!response.ok) throw new Error(`Research failed: ${response.statusText}`);
@@ -635,6 +660,7 @@ class DeepResearchApp {
       this.researchHistory = [];
       localStorage.removeItem('researchHistory');
       this.renderHistory();
+      // TODO: Call server to clear history
       
       this.tabsContainer.querySelectorAll('.tab:not([data-tab="new"])').forEach(t => t.remove());
       this.resultPanelsContainer.innerHTML = '';

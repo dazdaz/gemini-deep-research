@@ -77,8 +77,45 @@ router.post('/research', upload.array('files', 20), async (req: Request, res: Re
       });
     }
 
+    // Handle repo clone if URL provided
+    const { repoUrl } = req.body;
+    let repoDocs: DocumentInput[] = [];
+    
+    if (repoUrl && typeof repoUrl === 'string' && (repoUrl.startsWith('http') || repoUrl.startsWith('git'))) {
+      try {
+        const { loadDocumentsFromFolder } = await import('../../lib/index.js');
+        const { execSync } = await import('child_process');
+        
+        // Create temp dir
+        const tempDir = path.join(process.cwd(), 'temp_repos', `repo-${Date.now()}`);
+        if (!fs.existsSync(tempDir)) {
+          fs.mkdirSync(tempDir, { recursive: true });
+        }
+        
+        // Clone repo
+        console.log(`Cloning repo ${repoUrl} to ${tempDir}`);
+        execSync(`git clone --depth 1 ${repoUrl} ${tempDir}`, { stdio: 'ignore' });
+        
+        // Load documents
+        const allowedExtensions = ['.ts', '.js', '.py', '.java', '.c', '.cpp', '.h', '.hpp', '.md', '.txt', '.json', '.xml', '.html', '.css', '.go', '.rs'];
+        repoDocs = await loadDocumentsFromFolder(tempDir, {
+          recursive: true,
+          extensions: allowedExtensions,
+        });
+        
+        // Cleanup repo
+        fs.rmSync(tempDir, { recursive: true, force: true });
+      } catch (err) {
+        console.error('Repo clone error:', err);
+        // Continue without repo documents, but maybe log it
+      }
+    }
+
     // Load uploaded files
     let documents: DocumentInput[] = [];
+    if (repoDocs && repoDocs.length > 0) {
+      documents.push(...repoDocs);
+    }
     const files = req.files as Express.Multer.File[];
     
     if (files && files.length > 0) {

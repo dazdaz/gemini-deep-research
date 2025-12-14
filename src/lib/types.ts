@@ -149,6 +149,13 @@ export interface ErrorInfo {
 // File Upload Types
 // ============================================
 
+export interface FileFilters {
+  extensions?: string[];
+  maxFileSize?: number; // in bytes
+  excludePatterns?: string[];
+  recursive?: boolean;
+}
+
 export interface FileUploadResult {
   name: string;
   displayName: string;
@@ -161,13 +168,6 @@ export interface FileUploadResult {
   uri: string;
   state: 'PROCESSING' | 'ACTIVE' | 'FAILED';
   error?: ErrorInfo;
-}
-
-export interface FileFilters {
-  extensions?: string[];
-  maxFileSize?: number; // in bytes
-  excludePatterns?: string[];
-  recursive?: boolean;
 }
 
 export interface ScanResult {
