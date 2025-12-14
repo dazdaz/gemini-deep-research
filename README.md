@@ -14,7 +14,7 @@ This agent uses the **Deep Research Pro Preview** model:
 deep-research-pro-preview-12-2025
 ```
 
-<img width="1025" height="505" alt="Screenshot 2025-12-14 at 11 44 55" src="https://github.com/user-attachments/assets/311e9f30-113c-4831-97b0-45b6d4b096ea" />
+<img width="1509" height="765" alt="Screenshot 2025-12-14 at 12 26 49" src="https://github.com/user-attachments/assets/06e88b75-de8c-4ca0-876a-fee22cb59c13" />
 
 See: [Deep Research Documentation](https://ai.google.dev/gemini-api/docs/deep-research)
 
