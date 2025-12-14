@@ -190,6 +190,22 @@ router.get('/research/:id', (req: Request, res: Response) => {
 });
 
 /**
+ * DELETE /api/research/:id
+ * Delete research result
+ */
+router.delete('/research/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  if (researchResults.has(id)) {
+    researchResults.delete(id);
+    res.json({ success: true, message: 'Result deleted' });
+  } else {
+    // If not found (maybe already expired or cleaned up), still return success for idempotency
+    res.json({ success: true, message: 'Result not found or already deleted' });
+  }
+});
+
+/**
  * GET /api/research
  * List recent research results
  */

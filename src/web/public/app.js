@@ -539,8 +539,16 @@ class DeepResearchApp {
     });
   }
 
-  deleteResult(id) {
+  async deleteResult(id) {
     if (confirm('Delete this research result?')) {
+      // Delete on server
+      try {
+        await fetch(`/api/research/${id}`, { method: 'DELETE' });
+      } catch (e) {
+        console.error('Failed to delete on server', e);
+      }
+
+      // Delete locally
       this.researchHistory = this.researchHistory.filter(r => r.id !== id);
       localStorage.setItem('researchHistory', JSON.stringify(this.researchHistory));
       

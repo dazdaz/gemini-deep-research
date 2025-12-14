@@ -84,12 +84,17 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // Start server
 app.listen(Number(PORT), HOST, () => {
+  const url = `http://${HOST}:${PORT}`;
+  const innerWidth = 64;
+  const lineContent = `   Server running at: ${url}`;
+  const padding = ' '.repeat(Math.max(0, innerWidth - lineContent.length));
+  
   console.log(`
 ╔════════════════════════════════════════════════════════════════╗
 ║                                                                ║
 ║   🔬 Gemini Deep Research Agent                                ║
 ║                                                                ║
-║   Server running at: http://${HOST}:${PORT}                       ║
+║${lineContent}${padding}║
 ║                                                                ║
 ║   API Endpoints:                                               ║
 ║   • POST /api/research     - Start new research                ║
