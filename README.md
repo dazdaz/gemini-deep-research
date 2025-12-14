@@ -1,0 +1,303 @@
+# 🔬 Gemini Deep Research Agent
+
+A full-featured research agent powered by the **Gemini Interactions API** and **Deep Research** capabilities. Conduct comprehensive AI-powered research with support for document analysis, multiple source types, and customizable depth levels.
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-green)
+![License](https://img.shields.io/badge/license-MIT-purple)
+
+## 🤖 Model
+
+This agent uses the **Deep Research Pro Preview** model:
+
+```
+deep-research-pro-preview-12-2025
+```
+
+See: [Deep Research Documentation](https://ai.google.dev/gemini-api/docs/deep-research)
+
+## ✨ Features
+
+- 🔍 **Deep Research**: Comprehensive AI-powered research using Gemini's Deep Research agent (`deep-research-pro-preview-12-2025`)
+- 📁 **Multi-Document Upload**: Upload multiple files or entire folders for context
+- 🎚️ **Configurable Depth**: Quick, Standard, Deep, or Maximum research depth
+- 📊 **Multiple Output Formats**: Summary, Detailed, Markdown, or JSON
+- 🌐 **Web Interface**: Modern, responsive UI for browser-based research
+- 💻 **CLI Tool**: Powerful command-line interface for scripting and automation
+- 📚 **Library Module**: Import into your own Node.js projects
+- ⚡ **Background Processing**: Long-running research with progress tracking
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18.0.0 or higher
+- A Gemini API key ([Get one here](https://aistudio.google.com/apikey))
+
+### Installation
+
+```bash
+# Clone or navigate to the directory
+cd gemini-research-agent
+
+# Install dependencies
+npm install
+
+# Set up your API key
+cp .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+
+# Build the project
+npm run build
+```
+
+### Usage
+
+#### Web Interface
+
+```bash
+# Start the web server
+npm start
+
+# Open http://localhost:3000 in your browser
+```
+
+#### CLI Tool
+
+```bash
+# Basic research
+npm run cli research "What are the latest advances in quantum computing?"
+
+# Quick research (fast)
+npm run cli quick "Explain machine learning"
+
+# Deep research with maximum depth
+npm run cli deep "Climate change impacts on biodiversity"
+
+# Research with document upload
+npm run cli research "Summarize the key points" --upload ./paper.pdf
+
+# Research with folder of documents
+npm run cli research "Compare these papers" --folder ./research-papers/
+
+# Save output to file
+npm run cli research "AI ethics" --output ./results.md
+```
+
+## 📖 CLI Commands
+
+### `research` (alias: `r`)
+
+Main research command with full options.
+
+```bash
+npm run cli research <query> [options]
+
+Options:
+  -d, --depth <level>       Research depth: quick, standard, deep, maximum (default: deep)
+  -f, --format <format>     Output format: summary, detailed, markdown, json (default: markdown)
+  -u, --upload <files...>   Upload files for context (can specify multiple)
+  --folder <path>           Upload all files from a folder
+  -t, --types <extensions>  File extensions to include (comma-separated, default: pdf,txt,md,docx)
+  -o, --output <file>       Save output to a file
+  -c, --citations           Include citations in output
+  -s, --sources <type>      Source types: web, academic, news, all (default: all)
+  --no-progress             Disable progress output
+```
+
+### `quick` (alias: `q`)
+
+Quick research with minimal depth.
+
+```bash
+npm run cli quick "Your query"
+```
+
+### `deep`
+
+Maximum depth research with citations.
+
+```bash
+npm run cli deep "Your query" --upload ./docs/ --output ./results.md
+```
+
+### `analyze` (alias: `a`)
+
+Analyze specific documents.
+
+```bash
+npm run cli analyze "Extract key findings" ./paper1.pdf ./paper2.pdf
+```
+
+### `upload`
+
+Preview files that will be uploaded.
+
+```bash
+npm run cli upload ./folder/ --types "pdf,txt"
+```
+
+### `status`
+
+Check research session status.
+
+```bash
+npm run cli status --list
+npm run cli status <session-id>
+```
+
+## 🔧 Library Usage
+
+Import the library in your Node.js/TypeScript projects:
+
+```typescript
+import { 
+  createDeepResearchAgent, 
+  loadDocumentsFromFolder,
+  FileManager 
+} from 'gemini-research-agent';
+
+// Create agent
+const agent = createDeepResearchAgent(process.env.GEMINI_API_KEY);
+
+// Simple research
+const result = await agent.quickResearch('What is quantum computing?');
+console.log(result.content);
+
+// Deep research with documents
+const docs = await loadDocumentsFromFolder('./research-papers');
+const deepResult = await agent.deepResearch(
+  'Summarize the main findings from these papers',
+  docs
+);
+
+// Research with progress tracking
+const trackedResult = await agent.research(
+  {
+    query: 'Climate change mitigation strategies',
+    options: {
+      depth: 'maximum',
+      outputFormat: 'markdown',
+      includeCitations: true,
+    },
+  },
+  (event) => {
+    console.log(`Progress: ${event.data?.progress}%`);
+  }
+);
+
+// Clean up
+await agent.closeSession();
+```
+
+## 🌐 API Endpoints
+
+When running the web server, these endpoints are available:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/research` | Start new research query |
+| `GET` | `/api/research/:id` | Get research result by ID |
+| `GET` | `/api/research` | List recent research results |
+| `POST` | `/api/upload` | Upload files for analysis |
+| `GET` | `/api/sessions` | List active sessions |
+| `GET` | `/api/config` | Get API configuration |
+| `GET` | `/health` | Health check |
+
+### Example API Request
+
+```bash
+curl -X POST http://localhost:3000/api/research \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Latest AI research", "depth": "deep"}'
+```
+
+## 📁 Project Structure
+
+```
+gemini-research-agent/
+├── src/
+│   ├── lib/                    # Core library
+│   │   ├── index.ts            # Main exports
+│   │   ├── client.ts           # Gemini API client
+│   │   ├── deep-research.ts    # Deep Research agent
+│   │   ├── file-manager.ts     # File handling
+│   │   └── types.ts            # TypeScript types
+│   ├── cli/                    # CLI application
+│   │   ├── index.ts            # CLI entry point
+│   │   ├── commands/           # CLI commands
+│   │   └── utils/              # CLI utilities
+│   └── web/                    # Web application
+│       ├── server.ts           # Express server
+│       ├── routes/             # API routes
+│       └── public/             # Frontend files
+├── dist/                       # Compiled output
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+# Required
+GEMINI_API_KEY=your-api-key-here
+
+# Optional
+PORT=3000
+HOST=localhost
+DEFAULT_RESEARCH_DEPTH=deep
+DEFAULT_OUTPUT_FORMAT=markdown
+```
+
+### Research Depth Options
+
+| Depth | Description | Use Case |
+|-------|-------------|----------|
+| `quick` | Fast overview, basic analysis | Simple questions, quick answers |
+| `standard` | Balanced depth and speed | General research |
+| `deep` | Thorough analysis | Detailed research |
+| `maximum` | Exhaustive, multi-source analysis | Academic research, complex topics |
+
+### Supported File Types
+
+- **Documents**: PDF, DOCX, DOC
+- **Text**: TXT, MD, HTML, XML
+- **Data**: CSV, JSON
+- **Code**: JS, TS, PY, etc.
+
+## 🔗 Resources
+
+- [Gemini Interactions API Documentation](https://ai.google.dev/gemini-api/docs/interactions)
+- [Deep Research Documentation](https://ai.google.dev/gemini-api/docs/deep-research)
+- [Get API Key](https://aistudio.google.com/apikey)
+- [Gemini API Blog Post](https://blog.google/technology/developers/interactions-api/)
+
+## 🛠️ Development
+
+```bash
+# Watch mode for development
+npm run dev
+
+# Build
+npm run build
+
+# Clean build artifacts
+npm run clean
+```
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+Built with ❤️ using the [Gemini Interactions API](https://ai.google.dev/gemini-api/docs/interactions)

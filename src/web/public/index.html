@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Deep Research Agent</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-microscope"></i>
+          <h1>Gemini Deep Research</h1>
+        </div>
+        <div class="header-actions">
+          <span class="model-badge">
+            <i class="fas fa-brain"></i>
+            deep-research-pro
+          </span>
+          <div class="zoom-controls">
+            <button class="zoom-btn" id="zoomOutBtn" title="Decrease size"><i class="fas fa-minus"></i></button>
+            <span class="zoom-value" id="zoomValue">16px</span>
+            <button class="zoom-btn" id="zoomInBtn" title="Increase size"><i class="fas fa-plus"></i></button>
+          </div>
+          <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="main-content">
+      <!-- Left Panel - Research Form -->
+      <div class="research-panel">
+        <!-- Tabs Bar -->
+        <div class="tabs-bar">
+          <div class="tabs-container" id="tabsContainer">
+            <button class="tab active" data-tab="new">
+              <i class="fas fa-plus"></i> <span>New Research</span>
+            </button>
+          </div>
+          <button class="add-tab-btn" id="addTabBtn" title="New Research">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-area">
+          <div class="tab-panel active" id="newResearchPanel">
+            <!-- Query Input -->
+            <div class="form-row">
+              <label><i class="fas fa-search"></i> Research Query</label>
+              <textarea id="queryInput" placeholder="Enter your research query..." rows="5"></textarea>
+            </div>
+
+            <!-- Compact Options Row -->
+            <div class="options-row">
+              <div class="option-group">
+                <label><i class="fas fa-layer-group"></i> Depth</label>
+                <select id="depthSelect">
+                  <option value="quick">Quick</option>
+                  <option value="standard">Standard</option>
+                  <option value="deep" selected>Deep</option>
+                  <option value="maximum">Maximum</option>
+                </select>
+              </div>
+              <div class="option-group">
+                <label><i class="fas fa-file-alt"></i> Format</label>
+                <select id="formatSelect">
+                  <option value="summary">Summary</option>
+                  <option value="detailed">Detailed</option>
+                  <option value="markdown" selected>Markdown</option>
+                  <option value="json">JSON</option>
+                </select>
+              </div>
+              <div class="option-group">
+                <label><i class="fas fa-globe"></i> Sources</label>
+                <select id="sourcesSelect">
+                  <option value="all" selected>All</option>
+                  <option value="web">Web</option>
+                  <option value="academic">Academic</option>
+                  <option value="news">News</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Compact Upload -->
+            <div class="upload-row">
+              <div class="drop-zone" id="dropZone">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Drop files here or</span>
+                <div class="drop-zone-actions">
+                  <button type="button" class="browse-btn" id="browseBtn">Browse</button>
+                  <button type="button" class="browse-btn folder-btn" id="browseFolderBtn">Folder</button>
+                </div>
+                <input type="file" id="fileInput" multiple hidden>
+                <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
+              </div>
+              <div class="file-queue" id="fileQueue"></div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="action-row">
+              <button class="research-btn" id="startResearchBtn">
+                <i class="fas fa-rocket"></i> Start Research
+              </button>
+            </div>
+
+            <!-- Progress (hidden by default) -->
+            <div class="progress-section hidden" id="progressSection">
+              <div class="progress-info">
+                <span id="progressStatus">Initializing...</span>
+                <span id="elapsedTime">0.0s</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Result Panels Container -->
+          <div id="resultPanelsContainer"></div>
+        </div>
+      </div>
+
+      <!-- Right Panel - History -->
+      <aside class="history-panel" id="historyPanel">
+        <div class="history-header">
+          <h3><i class="fas fa-history"></i> History</h3>
+          <button class="clear-btn" id="clearHistoryBtn" title="Clear"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="history-list" id="resultsList"></div>
+      </aside>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
