@@ -192,12 +192,12 @@ DEFAULT_OUTPUT_FORMAT=markdown
 
 ### Research Depth Options
 
-| Depth | Description | Use Case |
+| Depth | Description | Best For |
 |-------|-------------|----------|
-| `quick` | Fast overview, basic analysis | Simple questions, quick answers |
-| `standard` | Balanced depth and speed | General research |
-| `deep` | Thorough analysis | Detailed research |
-| `maximum` | Exhaustive, multi-source analysis | Academic research, complex topics |
+| `quick` | Fast overview with basic analysis. Minimal web browsing. | Simple questions, quick facts, definitions |
+| `standard` | Balanced depth and speed. Moderate sources consulted. | General research, background information |
+| `deep` | Thorough multi-step research. Multiple perspectives explored. | Detailed analysis, comparisons, technical topics |
+| `maximum` | Exhaustive research. All available sources, comprehensive citations. | Academic research, complex topics, literature reviews |
 
 ### Supported File Types
 

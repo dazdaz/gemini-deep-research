@@ -152,6 +152,39 @@ class DeepResearchApp {
             <li>🔗 <strong>GitHub Repo Clone:</strong> Paste GitHub URLs in the query - repos are auto-cloned and analyzed</li>
           </ul>
 
+          <h2 style="color: var(--primary); margin-top: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">🎚️ Research Depth Options</h2>
+          <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border);">
+                <th style="text-align: left; padding: 0.5rem;">Depth</th>
+                <th style="text-align: left; padding: 0.5rem;">Description</th>
+                <th style="text-align: left; padding: 0.5rem;">Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 0.5rem;"><strong>Quick</strong></td>
+                <td style="padding: 0.5rem;">Fast overview with basic analysis. Minimal web browsing.</td>
+                <td style="padding: 0.5rem;">Simple questions, quick facts, definitions</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 0.5rem;"><strong>Standard</strong></td>
+                <td style="padding: 0.5rem;">Balanced depth and speed. Moderate sources consulted.</td>
+                <td style="padding: 0.5rem;">General research, background information</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 0.5rem;"><strong>Deep</strong></td>
+                <td style="padding: 0.5rem;">Thorough multi-step research. Multiple perspectives explored.</td>
+                <td style="padding: 0.5rem;">Detailed analysis, comparisons, technical topics</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem;"><strong>Maximum</strong></td>
+                <td style="padding: 0.5rem;">Exhaustive research. All available sources, comprehensive citations.</td>
+                <td style="padding: 0.5rem;">Academic research, complex topics, literature reviews</td>
+              </tr>
+            </tbody>
+          </table>
+
           <h1 style="margin-top: 2em;">🧠 Model Comparison: Deep Research vs Deep Think</h1>
           <p>It's important to understand the distinction between Google's recent AI capabilities:</p>
           
